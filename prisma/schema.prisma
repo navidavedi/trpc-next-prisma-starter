@@ -14,10 +14,31 @@ model Post {
   id    String @id @default(uuid())
   title String
   text  String
+  tags  Tag[]
 
   // To return `Date`s intact through the API we use transformers
   // https://trpc.io/docs/data-transformers
   // This is unique so it can be used for cursor-based pagination
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now()) @updatedAt
+  TagsOnPosts TagsOnPosts[]
+}
+
+model Tag {
+  id          String        @id @default(uuid())
+  title       String
+  posts       Post[]
+  createdAt   DateTime      @default(now())
+  TagsOnPosts TagsOnPosts[]
+}
+
+model TagsOnPosts {
+  post       Post     @relation(fields: [postId], references: [id])
+  postId     String
+  tag        Tag      @relation(fields: [tagId], references: [id])
+  tagId      String
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([postId, tagId])
 }

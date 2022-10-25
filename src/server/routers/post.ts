@@ -18,7 +18,8 @@ const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
   title: true,
   text: true,
   createdAt: true,
-  updatedAt: true
+  updatedAt: true,
+  tags: true
 })
 
 export const postRouter = t.router({
@@ -86,12 +87,21 @@ export const postRouter = t.router({
       z.object({
         id: z.string().uuid().optional(),
         title: z.string().min(1).max(32),
-        text: z.string().min(1)
+        text: z.string().min(1),
+        tags: z.array(z.object({ id: z.string(), title: z.string() }))
       })
     )
     .mutation(async ({ input }) => {
       const post = await prisma.post.create({
-        data: input,
+        data: {
+          text: input.text,
+          title: input.title,
+          tags: {
+            connect: input.tags.map((tag) => ({
+              id: tag.id
+            }))
+          }
+        },
         select: defaultPostSelect
       })
       return post

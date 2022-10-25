@@ -1,23 +1,11 @@
 import { trpc } from '../utils/trpc'
 import { NextPageWithLayout } from './_app'
-import { inferProcedureInput } from '@trpc/server'
 
 import { Fragment } from 'react'
-import type { AppRouter } from '~/server/routers/_app'
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Heading,
-  Input,
-  Textarea
-} from '@chakra-ui/react'
+import { Button, Container, Flex, Heading } from '@chakra-ui/react'
 import { Link } from '~/components/Link'
-import { useRouter } from 'next/router'
 
 const IndexPage: NextPageWithLayout = () => {
-  const utils = trpc.useContext()
   const postsQuery = trpc.post.list.useInfiniteQuery(
     {
       limit: 5
@@ -30,8 +18,8 @@ const IndexPage: NextPageWithLayout = () => {
   )
 
   return (
-    <>
-      <Heading size="lg" pb="10" pl="10">
+    <Container maxWidth={'container.lg'}>
+      <Heading size="lg" pb="10" pl="10" mt={10}>
         Simple blog
       </Heading>
       <Flex px="10" align="center">
@@ -82,7 +70,7 @@ const IndexPage: NextPageWithLayout = () => {
           ))}
         </Fragment>
       ))}
-    </>
+    </Container>
   )
 }
 
