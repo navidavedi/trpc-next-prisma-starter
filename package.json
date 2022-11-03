@@ -24,7 +24,7 @@
     "seed": "yarn ts-node prisma/seed.ts"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.3.4",
+    "@chakra-ui/react": "^2.3.7",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@prisma/client": "^4.3.1",
